@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-example1
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+  selector:
+    matchLabels:
+      app: nginx-example1
+  template:
+    metadata:
+      labels:
+        app: nginx-example1
+    spec:
+      imagePullSecrets: []
+      nodeSelector: {}
+        #node.type: db
+      tolerations: []
+      #- key: "only"
+      #  operator: "Equal"
+      #  value: "db"
+      #  effect: "NoSchedule"
+      affinity:
+        podAntiAffinity: {}
+        nodeAffinity: {}
+      volumes: []
+      containers:
+      - image: nginx
+        imagePullPolicy: IfNotPresent
+        name: nginx-example1
+        args: []
+        env: []
+        ports:
+          - containerPort: 80
+            name: http
+        volumeMounts: []
+        resources:
+          requests:
+            memory: 50Mi
+            cpu: 100m
+          limits:
+            memory: 50Mi
+            cpu: 100m
+          #livenessProbe:
+          #  httpGet:
+          #    path: /
+          #    port: 80
+          #    scheme: HTTP
+          #  failureThreshold: 3
+          #  initialDelaySeconds: 30
+          #  periodSeconds: 30
+          #  successThreshold: 1
+          #  timeoutSeconds: 10
+          #readinessProbe:
+          #  httpGet:
+          #    path: /
+          #    port: 80
+          #    scheme: HTTP
+          #lifecycle:
+          #  postStart:
+          #    exec:
+          #      command: []
+          #  preStop:
+          #    exec:
+          #      command: []
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-example1
+  
+spec:
+  selector:
+    app: nginx-example1
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: http
+  type: NodePort

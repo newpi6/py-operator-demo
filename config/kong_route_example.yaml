@@ -1,0 +1,17 @@
+apiVersion: devops.harvey.io/v1alpha1
+kind: KongRoute
+metadata:
+  name: kongroute-example
+spec:
+  # TODO(user): Add fields here
+  routeList:
+    - serviceName: 'nginx-example1'
+      serviceHost: 'nginx-example1'
+      servicePort: 80
+      name: 'nginx-example1'
+      paths:
+        - '/'
+        - '/nginx2'
+      methods:
+        - GET
+        - POST

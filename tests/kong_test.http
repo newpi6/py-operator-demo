@@ -1,0 +1,59 @@
+### create service
+POST http://localhost:30001/services
+Content-Type: application/json
+
+{
+  "name": "nginx-example1",
+  "host": "nginx-example1",
+  "port": 80
+}
+
+### get services for all
+GET http://localhost:30001/services
+
+### delete service
+DELETE http://localhost:30001/services/nginx-example1
+
+### get route of service
+GET http://localhost:30001/services/nginx-example1/routes
+
+### create route
+POST http://localhost:30001/services/nginx-example1/routes
+Content-Type: application/json
+
+{
+  "paths": [
+    "/",
+    "/nginx1"
+  ],
+  "protocols": [
+    "http"
+  ],
+  "methods": [
+    "GET"
+  ],
+  "name": "nginx-example1",
+  "strip_path": true
+}
+
+### update route of service
+PATCH http://localhost:30001/services/nginx-example1/routes/nginx-example1
+Content-Type: application/json
+
+{
+  "paths": [
+    "/",
+    "/nginx1"
+  ],
+  "protocols": [
+    "http"
+  ],
+  "methods": [
+    "GET"
+  ],
+  "name": "nginx-example1",
+  "strip_path": true
+}
+
+### delete route of service
+DELETE http://localhost:30001/services/nginx-example1/routes/nginx-example1
